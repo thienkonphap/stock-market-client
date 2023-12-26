@@ -1,5 +1,5 @@
 .sidenav {
-    background: #263238;
+    background: #7360DF;
     transition: all .5s ease;
     position: fixed;
     z-index: 1;
@@ -82,14 +82,25 @@
     min-width: 2rem;
     margin: 0 0.5rem;
     text-align: center;
+
 }
 .sidenav-nav .sidenav-nav-item .sidenav-nav-link  .sidenav-link-text {
     margin-left: 1.5rem;
-    font-size: 16px;
+    font-size: 18px;
     font-weight: 500;
 }
 
 .sidenav-nav .sidenav-nav-item .sidenav-nav-link:hover {
     background-color: #f3f3f3;
+    color: #000;
+}
+.active {
+    background-color: #fff;
+    color: #000;
+}
+.active .sidenav-link-icon, .sidenav-link-text {
+    color: #000;
+}
+.active .sidenav-link-icon{
     color: #000;
 }

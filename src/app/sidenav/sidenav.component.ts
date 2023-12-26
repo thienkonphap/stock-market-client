@@ -2,7 +2,6 @@ import { Component, Output, EventEmitter} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { navBarData } from './nav-data';
-import { NgModule } from '@angular/core';
 
 interface SideNaveToggle {
   screenWidth: number;

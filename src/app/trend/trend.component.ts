@@ -7,12 +7,23 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import { CompaniesInfoService } from '../services/companies-info.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { Company } from '../models/company.model';
 
 export interface UserData {
   id: string;
   name: string;
   progress: string;
   fruit: string;
+}
+export interface CompanyData {
+    symbol: string,
+    security: string,
+    sector: string,
+    sub_industry: string,
+    headquarters: string,
+    date_added: string,
+    cik: string,
+    founded: string
 }
 /** Constants used to fill up our data base. */
 const FRUITS: string[] = [
@@ -55,10 +66,10 @@ const NAMES: string[] = [
 })
 export class TrendComponent implements AfterViewInit, OnInit{
 
-  companiesData: any[] =[]
+  companiesData: Company[] = []
 
-  displayedColumns: string[] = ['id', 'name', 'progress', 'fruit'];
-  dataSource: MatTableDataSource<UserData>;
+  displayedColumns: string[] = ['symbol','security','sector','sub_industry','headquarters','date_added','cik','founded'];
+  dataSource: MatTableDataSource<CompanyData>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -68,21 +79,23 @@ export class TrendComponent implements AfterViewInit, OnInit{
 
     // Create 100 users
     const users = Array.from({length: 100}, (_, k) => createNewUser(k + 1));
-
-    // Assign the data to the data source for the table to render
-    this.dataSource = new MatTableDataSource(users);
-  }
-  ngOnInit(): void {
+    let companiesDataInterFace: CompanyData[] = []
     this.companiesService.fetchCompaniesInfo().subscribe(
       (data) => {
-        this.companiesData = data;
-        console.log(this.companiesData);
+        this.companiesData = convertCsvToCompanyList(data)
         // You can now use this.companiesData in your template or other parts of the component
       },
       (error) => {
         console.error('Error fetching data:', error);
       }
     );
+    const companyDataList: CompanyData[] = this.companiesData.map(convertCompanyToCompanyData);
+    console.log(companyDataList)
+    // Assign the data to the data source for the table to render
+    this.dataSource = new MatTableDataSource(companyDataList);
+  }
+  ngOnInit(): void {
+   
   }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -114,4 +127,40 @@ function createNewUser(id: number): UserData {
     progress: Math.round(Math.random() * 100).toString(),
     fruit: FRUITS[Math.round(Math.random() * (FRUITS.length - 1))],
   };
+}
+function convertCsvToCompanyList(csvText: string): Company[] {
+  const lines = csvText.split('\n');
+  const headers = ['symbol', 'security', 'sector', 'sub_industry', 'headquarters', 'date_added', 'cik', 'founded']
+
+  const companyList: Company[] = [];
+
+  for (let i = 1; i < lines.length; i++) {
+    const values = lines[i].split(',');
+
+    const company: any = {};
+
+    for (let j = 0; j < headers.length; j++) {
+      const header = headers[j];
+      const value = values[j];
+
+      company[header] = value;
+    }
+    companyList.push(company);
+  }
+
+  return companyList;
+}
+function convertCompanyToCompanyData(company: Company): CompanyData {
+  const companyData: CompanyData = {
+    symbol: company.symbol,
+    security: company.security,
+    sector: company.sector,
+    sub_industry: company.sub_industry,
+    headquarters: company.headquarters,
+    date_added: company.date_added,
+    cik: company.cik,
+    founded: company.founded,
+  };
+
+  return companyData;
 }

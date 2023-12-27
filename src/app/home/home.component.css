@@ -1,4 +1,4 @@
-
+@import url('templatemo-style.css');
 .main-banner {
   position: relative;
   padding: 195px 0px 185px 0px;
@@ -122,5 +122,20 @@
   background-color: rgba(250, 250, 250, 0.95);
   padding: 60px;
   border-radius: 23px;
-  max-width: 50%;
+  max-width: 100%;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+  margin-left: -100px;
+}
+.about-us .about-us-text{
+  padding: 0px 0px 0px 0px;
+  text-align: center;
+  font-size: 40px;
+  color: #5b03e4;
+  font-weight: 1000;
+}
+.about-us .container{
+  margin-top: 40px;
+}
+.about-us .seconde-person{
+  margin-top: 1000px;
 }

@@ -1,9 +1,12 @@
-import {AfterViewInit, Component, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatPaginator, MatPaginatorModule} from '@angular/material/paginator';
 import {MatSort, MatSortModule} from '@angular/material/sort';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
+import { CompaniesInfoService } from '../services/companies-info.service';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { CommonModule } from '@angular/common';
 
 export interface UserData {
   id: string;
@@ -46,11 +49,13 @@ const NAMES: string[] = [
 @Component({
   selector: 'app-trend',
   standalone: true,
-  imports: [MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule],
+  imports: [MatFormFieldModule, MatInputModule, MatTableModule, MatSortModule, MatPaginatorModule, HttpClientModule, CommonModule],
   templateUrl: './trend.component.html',
   styleUrl: './trend.component.css'
 })
-export class TrendComponent implements AfterViewInit{
+export class TrendComponent implements AfterViewInit, OnInit{
+
+  companiesData: any[] =[]
 
   displayedColumns: string[] = ['id', 'name', 'progress', 'fruit'];
   dataSource: MatTableDataSource<UserData>;
@@ -58,12 +63,26 @@ export class TrendComponent implements AfterViewInit{
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
 
-  constructor() {
+  
+  constructor(private companiesService: CompaniesInfoService) {
+
     // Create 100 users
     const users = Array.from({length: 100}, (_, k) => createNewUser(k + 1));
 
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource(users);
+  }
+  ngOnInit(): void {
+    this.companiesService.fetchCompaniesInfo().subscribe(
+      (data) => {
+        this.companiesData = data;
+        console.log(this.companiesData);
+        // You can now use this.companiesData in your template or other parts of the component
+      },
+      (error) => {
+        console.error('Error fetching data:', error);
+      }
+    );
   }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;

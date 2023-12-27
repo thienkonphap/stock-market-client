@@ -4,6 +4,8 @@ import { RouterOutlet } from '@angular/router';
 import { SidenavComponent } from './sidenav/sidenav.component';
 import { BodyComponent } from './body/body.component';
 import { HomeComponent } from './home/home.component';
+import { HttpClientModule } from '@angular/common/http';
+import { TrendComponent } from './trend/trend.component';
 
 interface SideNaveToggle {
   screenWidth: number;
@@ -12,7 +14,7 @@ interface SideNaveToggle {
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, SidenavComponent, BodyComponent, HomeComponent],
+  imports: [CommonModule, RouterOutlet, SidenavComponent, BodyComponent, HomeComponent, TrendComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 }) 

@@ -8,6 +8,7 @@ import { CompaniesInfoService } from '../services/companies-info.service';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Company } from '../models/company.model';
+import * as Papa from 'papaparse';
 
 export interface UserData {
   id: string;
@@ -25,38 +26,7 @@ export interface CompanyData {
     cik: string,
     founded: string
 }
-/** Constants used to fill up our data base. */
-const FRUITS: string[] = [
-  'blueberry',
-  'lychee',
-  'kiwi',
-  'mango',
-  'peach',
-  'lime',
-  'pomegranate',
-  'pineapple',
-];
-const NAMES: string[] = [
-  'Maia',
-  'Asher',
-  'Olivia',
-  'Atticus',
-  'Amelia',
-  'Jack',
-  'Charlotte',
-  'Theodore',
-  'Isla',
-  'Oliver',
-  'Isabella',
-  'Jasper',
-  'Cora',
-  'Levi',
-  'Violet',
-  'Arthur',
-  'Mia',
-  'Thomas',
-  'Elizabeth',
-];
+
 @Component({
   selector: 'app-trend',
   standalone: true,
@@ -78,19 +48,23 @@ export class TrendComponent implements AfterViewInit, OnInit{
   constructor(private companiesService: CompaniesInfoService) {
 
     // Create 100 users
-    const users = Array.from({length: 100}, (_, k) => createNewUser(k + 1));
+    let papaData: Company[] = []
     let companiesDataInterFace: CompanyData[] = []
     this.companiesService.fetchCompaniesInfo().subscribe(
       (data) => {
-        this.companiesData = convertCsvToCompanyList(data)
         // You can now use this.companiesData in your template or other parts of the component
+        Papa.parse(data, { // Parse csv data 
+          complete: (result) => { 
+            papaData = result.data.map((companyData: any)=> new Company(companyData[0], companyData[1], companyData[2], companyData[3], companyData[4], companyData[5], companyData[6], companyData[7]))
+            this.companiesData = papaData.slice(1)
+          }
+        })
       },
       (error) => {
         console.error('Error fetching data:', error);
       }
     );
     const companyDataList: CompanyData[] = this.companiesData.map(convertCompanyToCompanyData);
-    console.log(companyDataList)
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource(companyDataList);
   }
@@ -112,21 +86,6 @@ export class TrendComponent implements AfterViewInit, OnInit{
   }
 
 
-}
-/** Builds and returns a new User. */
-function createNewUser(id: number): UserData {
-  const name =
-    NAMES[Math.round(Math.random() * (NAMES.length - 1))] +
-    ' ' +
-    NAMES[Math.round(Math.random() * (NAMES.length - 1))].charAt(0) +
-    '.';
-
-  return {
-    id: id.toString(),
-    name: name,
-    progress: Math.round(Math.random() * 100).toString(),
-    fruit: FRUITS[Math.round(Math.random() * (FRUITS.length - 1))],
-  };
 }
 function convertCsvToCompanyList(csvText: string): Company[] {
   const lines = csvText.split('\n');
@@ -161,6 +120,5 @@ function convertCompanyToCompanyData(company: Company): CompanyData {
     cik: company.cik,
     founded: company.founded,
   };
-
   return companyData;
 }

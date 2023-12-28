@@ -9,4 +9,5 @@ export class Company {
     public cik: string,
     public founded: string
   ) {}
+  
 }

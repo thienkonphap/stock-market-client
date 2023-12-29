@@ -48,8 +48,17 @@ export class HightlightChartComponent implements OnInit {
         valueDecimals: 2
       },
       name: 'AAPL',
+      type: 'candlestick',
       data: this.formattedData
-    }]
+    }],
+    plotOptions: {
+      candlestick: {
+        color: 'pink',
+        lineColor: 'red',
+        upColor: 'lightgreen',
+        upLineColor: 'green'
+      }
+    },
   } as any);
 
 
@@ -59,12 +68,11 @@ export class HightlightChartComponent implements OnInit {
       for (const date in timeSeries) {
         const entry = timeSeries[date];
         const formattedEntry = [
-          new Date(date).getTime(), parseFloat(entry["4. close"])
+          new Date(date).getTime(), parseFloat(entry["1. open"]), parseFloat(entry["2. high"]), parseFloat(entry["3. low"]), parseFloat(entry["4. close"])
         ]
         this.formattedData.push(formattedEntry);
       }
       this.formattedData = this.formattedData.reverse();
-      console.log(this.formattedData)
    }
    );
   }

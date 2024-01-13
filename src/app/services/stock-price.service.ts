@@ -16,4 +16,7 @@ export class StockPriceService {
     getOverview(symbol: String) {  
         return this.http.get(`http://localhost:52001/visite/overview/${symbol}`);
     }
+    getMostView(timestamp: String) {
+        return this.http.get(`http://localhost:52001/visite/most-frequently-view/${timestamp}`);
+    }
 }

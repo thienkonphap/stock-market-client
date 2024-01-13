@@ -11,5 +11,5 @@ export const routes: Routes = [
     {path: 'trending', component: TrendComponent},
     {path: 'price', component: PriceInfoComponent},
     {path: 'chart', component: NgChartsComponent},
-    {path: 'hightlight', component: HightlightChartComponent}
+    {path: 'highlight/:symbol', component: HightlightChartComponent}
 ]; // add export here

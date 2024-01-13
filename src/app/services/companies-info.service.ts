@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class CompaniesInfoService {
-  private baseUrl = 'https://raw.github.com/datasets/s-and-p-500-companies/main/data/constituents.csv';
+  private baseUrl = 'http://localhost:52001/visite/list-sp500-company';
   constructor(private http: HttpClient) { }
 
   fetchCompaniesInfo(): Observable<any> {

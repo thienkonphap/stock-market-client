@@ -1,4 +1,64 @@
-<p>hightlight-chart works!</p>
+<section class="featured section-padding">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6 col-12">
+                <div class="profile-thumb">
+                    <div class="profile-title">
+                        <h4 class="mb-0">Information</h4>
+                    </div>
+                    <div class="profile-body">
+                        <p>
+                            <span class="profile-small-title">Name</span>
+                            <span>{{overviewInfo["Name"]}}</span>
+                        </p>
+                        <p>
+                            <span class="profile-small-title">Country</span>
+                            <span>{{overviewInfo["Country"]}}</span>
+                        </p>
+                        <p>
+                            <span class="profile-small-title">Sector</span>
+                            <span>{{overviewInfo["Sector"]}}</span>
+                        </p>
+                        <p>
+                            <span class="profile-small-title">Industry</span>
+                            <span>{{overviewInfo["Industry"]}}</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 col-12 mt-5 mt-lg-0">
+                <div class="about-thumb">
+                    <div class="row">
+                        <div class="col-lg-6 col-6 featured-border-bottom py-2">
+                            <strong class="featured-numbers">{{overviewInfo["PERatio"]}}</strong>
+
+                            <p class="featured-text">PERatio</p>
+                        </div>
+
+                        <div class="col-lg-6 col-6 featured-border-start featured-border-bottom ps-5 py-2">
+                            <strong class="featured-numbers">{{overviewInfo["PEGRatio"]}}</strong>
+
+                            <p class="featured-text">PEGRatio</p>
+                        </div>
+
+                        <div class="col-lg-6 col-6 pt-4">
+                            <strong class="featured-numbers">{{overviewInfo["EPS"]}}</strong>
+
+                            <p class="featured-text">EPS</p>
+                        </div>
+
+                        <div class="col-lg-6 col-6 featured-border-start ps-5 pt-4">
+                            <strong class="featured-numbers">{{overviewInfo["RevenuePerShareTTM"]}}</strong>
+
+                            <p class="featured-text">RevenuePerShareTTM</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
 <div id="container"></div>
 <!-- <div [chart]="chart"></div> -->
 <script src="https://code.highcharts.com/stock/highstock.js"></script>

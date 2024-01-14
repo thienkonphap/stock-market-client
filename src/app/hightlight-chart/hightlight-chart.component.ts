@@ -46,7 +46,7 @@ export class HightlightChartComponent implements OnInit {
       for (const date in timeSeries) {
         const entry = timeSeries[date];
         const formattedEntry = [
-          new Date(date).getTime(), parseFloat(entry["1. open"]), parseFloat(entry["2. high"]), parseFloat(entry["3. low"]), parseFloat(entry["4. close"])
+          new Date(date).getTime(), parseFloat(entry["1. open"]), parseFloat(entry["2. high"]), parseFloat(entry["3. low"]), parseFloat(entry["4. close"]), parseFloat(entry["5. volume"])
         ]
         this.formattedData.push(formattedEntry);
       }

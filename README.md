@@ -2,6 +2,13 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.0.
 
+
+## What does it look like?
+### Home Page
+![alt text](images/homepage.png)
+
+### Stock Price Page
+![alt text](images/stockpage.png)
 ## Development server
 
 Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.

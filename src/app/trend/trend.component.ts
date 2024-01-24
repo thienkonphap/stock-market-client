@@ -39,7 +39,7 @@ export class TrendComponent implements AfterViewInit, OnInit{
   companiesData: Company[] = []
 
   displayedColumns: string[] = ['symbol','security','sector','sub_industry','headquarters','date_added','cik','founded'];
-  dataSource: MatTableDataSource<CompanyData>;
+  dataSource!: MatTableDataSource<CompanyData>;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -48,6 +48,27 @@ export class TrendComponent implements AfterViewInit, OnInit{
   constructor(private companiesService: CompaniesInfoService) {
 
     // Create 100 users
+    let papaData: Company[] = []
+    let companiesDataInterFace: CompanyData[] = []
+
+  }
+  ngOnInit(): void {
+   this.fetch();
+  }
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
+  fetch() {
     let papaData: Company[] = []
     let companiesDataInterFace: CompanyData[] = []
     this.companiesService.fetchCompaniesInfo().subscribe(
@@ -68,23 +89,6 @@ export class TrendComponent implements AfterViewInit, OnInit{
     // Assign the data to the data source for the table to render
     this.dataSource = new MatTableDataSource(companyDataList);
   }
-  ngOnInit(): void {
-   
-  }
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
-  }
-
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSource.paginator) {
-      this.dataSource.paginator.firstPage();
-    }
-  }
-
 
 }
 function convertCsvToCompanyList(csvText: string): Company[] {
